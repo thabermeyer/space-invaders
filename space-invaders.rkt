@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname SpaceInvaders) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname space-invaders) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (require 2htdp/universe)
 (require 2htdp/image)
 
@@ -186,12 +186,15 @@
 
 ;; Game -> Game
 ;; produce the next state of Game to render onscreen
-;; every three seconds an increasing number of Invaders are added to the screen
 
-(check-expect (advance-game G0) (make-game (add-invader empty) empty (advance-tank T0)))
-(check-expect (advance-game G1) (make-game (add-invader empty) empty (advance-tank T1)))
-(check-expect (advance-game G2) (make-game (add-invader (advance-invaders (list I1)))
-                                           (advance-missiles (list M1))
+(check-expect (advance-game G0) (make-game (add-invader (advance-invaders (remove-invaders empty empty)))
+                                           (advance-missiles (remove-missiles empty empty))
+                                           (advance-tank T0)))
+(check-expect (advance-game G1) (make-game (add-invader (advance-invaders (remove-invaders empty empty)))
+                                           (advance-missiles (remove-missiles empty empty))
+                                           (advance-tank T1)))
+(check-expect (advance-game G2) (make-game (add-invader (advance-invaders (remove-invaders (list M1)(list I1))))
+                                           (advance-missiles (remove-missiles (list M1)(list I1)))
                                            (advance-tank T1)))
 (check-expect (advance-game G3) (make-game (add-invader (advance-invaders (remove-invaders (list M1 M2)(list I1 I2))))
                                            (advance-missiles (remove-missiles (list M1 M2)(list I1 I2)))
